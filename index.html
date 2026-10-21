@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;background:#2a4996;font-family:'Open Sans',system-ui,sans-serif;color:#1b2a55;-webkit-font-smoothing:antialiased}a{color:#2a4996}a:hover{color:#1f3877}input::placeholder{color:#8a93ad}@keyframes pulse{0%{transform:translate(-50%,-50%) scale(.6);opacity:.9}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}@keyframes toastIn{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}</style></helmet>
+<div style="min-height:100vh;display:flex;justify-content:center;background:#2a4996">
+  <div style="width:100%;max-width:440px;min-height:100vh;background:#fbf5df;position:relative;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(0,0,0,.25)">
+
+    <header style="position:relative;background:#2a4996;overflow:hidden;padding:18px 20px 30px;display:flex;flex-direction:column;gap:22px;min-height:250px">
+      <img src="assets/castle-art.png" alt="" style="position:absolute;right:-60px;bottom:-30px;width:230px;height:auto;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40%);mask-image:linear-gradient(90deg,transparent 0,#000 40%)">
+      <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+        <div style="display:flex;align-items:center;gap:14px">
+          <img src="assets/logo-crop.png" alt="Al Dikkrich" style="width:74px;height:auto;display:block">
+          <span style="width:1px;align-self:stretch;background:rgba(255,255,255,.35)"></span>
+          <div style="background:#fff;border-radius:12px;padding:5px;box-shadow:0 4px 14px -6px rgba(0,0,0,.4)">
+            <img src="assets/chev-logo.jpg" alt="CHEV Handball Diekirch" style="width:56px;height:auto;display:block">
+          </div>
+        </div>
+      </div>
+      <div style="position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:auto">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f0c42d">Schichtplang</div>
+        <h1 style="margin:0;font-family:Merriweather,Georgia,serif;font-weight:900;font-size:26px;line-height:1.2;white-space:nowrap;color:#f0c42d;background:rgba(42,73,150,.82);padding:2px 8px 4px;margin-left:-8px">Al Dikkrich 2027</h1>
+        <div style="font-family:Merriweather,Georgia,serif;font-weight:300;font-size:16px;color:#fff;white-space:nowrap;background:rgba(42,73,150,.82);padding:2px 8px 4px;margin-left:-8px">09. – 13. Juli 2027</div>
+      </div>
+    </header>
+
+    <div style="background:#f0c42d;padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px">
+      <div style="font-family:Merriweather,Georgia,serif;font-weight:300;font-size:21px;line-height:1.25;color:#2a4996">Volléksfest hannert der Aler Kiirch</div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#1b2a55;text-wrap:pretty">Sich der eng Schicht eraus a schreif dech mat Numm an E-Mail an. Merci fir d'Mathëllefen!</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;flex-wrap:wrap"><button onClick="{{ openMap }}" style="flex:none;white-space:nowrap;background:#2a4996;color:#f0c42d;border:0;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;min-height:44px;display:flex;align-items:center;gap:8px" style-hover="background:#1f3877"><span style="width:10px;height:10px;border-radius:50%;background:#f0c42d"></span>Plang vum Site</button>
+        <sc-if value="{{ hasMine }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#f0c42d;background:#2a4996;border-radius:999px;padding:7px 12px;white-space:nowrap">{{ mineLabel }}</div>
+        </sc-if>
+      </div>
+    </div>
+
+    <nav style="position:sticky;top:0;z-index:5;background:#fbf5df;padding:14px 14px 10px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;border-bottom:1px solid rgba(42,73,150,.1)">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <sc-if value="{{ t.active }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ t.onClick }}" style="border:0;border-radius:10px;padding:8px 2px;background:#2a4996;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:inherit;box-shadow:0 4px 12px -4px rgba(42,73,150,.6)">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#f0c42d">{{ t.dow }}</span>
+            <span style="font-family:Merriweather,Georgia,serif;font-size:19px;font-weight:700;line-height:1.2">{{ t.num }}</span>
+            <span style="font-size:11px;color:#dfe5f5;white-space:nowrap">{{ t.sub }}</span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ t.inactive }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ t.onClick }}" style="border:1.5px solid rgba(42,73,150,.18);border-radius:10px;padding:6.5px 2px;background:#fff;color:#2a4996;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:inherit" style-hover="border-color:#2a4996">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">{{ t.dow }}</span>
+            <span style="font-family:Merriweather,Georgia,serif;font-size:19px;font-weight:700;line-height:1.2">{{ t.num }}</span>
+            <span style="font-size:11px;color:#5a6587;white-space:nowrap">{{ t.sub }}</span>
+          </button>
+        </sc-if>
+      </sc-for>
+    </nav>
+
+    <main style="flex:1;padding:16px 16px 120px;display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 4px">
+        <div style="font-family:Merriweather,Georgia,serif;font-size:18px;font-weight:700;color:#2a4996">{{ dayTitle }}</div>
+      </div>
+      <sc-if value="{{ hasStatus }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:14px;line-height:1.5;color:#5a6587;padding:0 4px">{{ statusText }}</div>
+      </sc-if>
+      <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="3">
+        <section style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:0 4px">
+            <h2 style="margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#2a4996;font-weight:700">{{ sec.stand }}</h2>
+            <button onClick="{{ sec.onMap }}" style="border:0;background:none;padding:6px 0 6px 6px;font-size:12px;color:#2a4996;font-weight:600;text-decoration:underline;cursor:pointer;font-family:inherit">{{ sec.note }} · um Plang</button>
+          </div>
+          <sc-for list="{{ sec.shifts }}" as="s" hint-placeholder-count="2">
+            <div style="border-radius:14px;padding:14px 14px 14px 16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 3px rgba(27,42,85,.08);background:{{ s.cardBg }}">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+                <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1">
+                  <span style="font-family:Merriweather,Georgia,serif;font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;color:#1b2a55">{{ s.time }}</span>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="display:flex;gap:4px">
+                      <sc-for list="{{ s.dots }}" as="d" hint-placeholder-count="3">
+                        <sc-if value="{{ d.filled }}" hint-placeholder-val="{{ false }}"><span style="width:9px;height:9px;border-radius:50%;background:#2a4996"></span></sc-if>
+                        <sc-if value="{{ d.empty }}" hint-placeholder-val="{{ true }}"><span style="width:9px;height:9px;border-radius:50%;background:#f0c42d;box-shadow:inset 0 0 0 1.5px #d9a90f"></span></sc-if>
+                      </sc-for>
+                    </div>
+                    <span style="font-size:13px;color:#5a6587;white-space:nowrap">{{ s.freeLabel }}</span>
+                  </div>
+                </div>
+                <sc-if value="{{ s.showJoin }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ s.onToggle }}" style="flex:none;background:#2a4996;color:#f0c42d;border:0;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;min-height:44px" style-hover="background:#1f3877" style-active="transform:scale(.97)">Aschreiwen</button>
+                </sc-if>
+                <sc-if value="{{ s.showClose }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ s.onToggle }}" style="flex:none;background:#eef0f7;color:#2a4996;border:0;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;min-height:44px">Ofbriechen</button>
+                </sc-if>
+                <sc-if value="{{ s.isMine }}" hint-placeholder-val="{{ false }}">
+                  <span style="flex:none;font-size:13px;font-weight:700;color:#2a4996;background:#f0c42d;border-radius:999px;padding:7px 12px">Du bass dobäi</span>
+                </sc-if>
+                <sc-if value="{{ s.isFullOther }}" hint-placeholder-val="{{ false }}">
+                  <span style="flex:none;font-size:13px;color:#5a6587;background:#eef0f7;border-radius:999px;padding:7px 12px;font-weight:700">Voll</span>
+                </sc-if>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid #eef0f7;padding-top:10px">
+                <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#5a6587;font-weight:700">{{ s.peopleLabel }}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ s.people }}" as="p" hint-placeholder-count="2">
+                    <sc-if value="{{ p.mine }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:13px;padding:4px 10px;border-radius:999px;background:#f0c42d;color:#1b2a55;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap">{{ p.name }}<button onClick="{{ p.onRemove }}" style="border:0;background:none;color:#2a4996;font-size:12px;text-decoration:underline;padding:0;cursor:pointer;font-family:inherit">ofmellen</button></span>
+                    </sc-if>
+                    <sc-if value="{{ p.other }}" hint-placeholder-val="{{ true }}">
+                      <span style="font-size:13px;padding:4px 10px;border-radius:999px;background:#eef0f7;color:#1b2a55;white-space:nowrap">{{ p.name }}</span>
+                    </sc-if>
+                  </sc-for>
+                  <sc-for list="{{ s.freeSlots }}" as="f" hint-placeholder-count="1">
+                    <span style="font-size:13px;padding:3px 10px;border-radius:999px;border:1.5px dashed #d9a90f;color:#8a6a00;white-space:nowrap">fräi</span>
+                  </sc-for>
+                </div>
+              </div>
+
+              <sc-if value="{{ s.isOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px;padding-top:2px">
+                  <input ref="{{ s.inputRef }}" value="{{ s.draft }}" onChange="{{ s.onInput }}" onKeyDown="{{ s.onKey }}" placeholder="Däin Numm" autocomplete="name" style="padding:12px 14px;border:1.5px solid #d3d8e8;border-radius:10px;font-size:16px;font-family:inherit;background:#f8f9fc;color:#1b2a55;outline:none;width:100%" style-focus="border-color:#2a4996;background:#fff">
+                  <input type="email" inputmode="email" value="{{ s.draftMail }}" onChange="{{ s.onMail }}" onKeyDown="{{ s.onKey }}" placeholder="E-Mail fir d'Bestätegung" autocomplete="email" style="padding:12px 14px;border:1.5px solid #d3d8e8;border-radius:10px;font-size:16px;font-family:inherit;background:#f8f9fc;color:#1b2a55;outline:none;width:100%" style-focus="border-color:#2a4996;background:#fff">
+                  <span style="font-size:12px;color:#5a6587;line-height:1.4">Deng Mail gesinn nëmmen d'Organisateuren – ëffentlech steet just däin Numm.</span>
+                  <button onClick="{{ s.onSubmit }}" style="background:#f0c42d;color:#1b2a55;border:0;border-radius:10px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;min-height:46px" style-hover="background:#e6b81c">{{ s.submitLabel }}</button>
+                  <sc-if value="{{ s.hasError }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size:13px;color:#b3261e">{{ s.error }}</span>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </section>
+      </sc-for>
+    </main>
+
+    <sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;z-index:40;background:rgba(20,32,70,.6);display:flex;align-items:flex-end;justify-content:center">
+        <div style="width:100%;max-width:440px;max-height:92vh;background:#fbf5df;border-radius:22px 22px 0 0;overflow:hidden;display:flex;flex-direction:column;animation:toastIn .25s ease-out">
+          <div style="background:#2a4996;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#f0c42d;font-weight:700">Plang</span>
+              <span style="font-family:Merriweather,Georgia,serif;font-weight:900;font-size:20px;color:#f0c42d">Wou sinn d'Stänn?</span>
+            </div>
+            <button onClick="{{ closeMap }}" style="border:0;background:rgba(255,255,255,.16);color:#fff;border-radius:10px;font-size:14px;font-weight:600;padding:0 14px;min-height:44px;cursor:pointer;font-family:inherit">Zou</button>
+          </div>
+          <div ref="{{ mapRef }}" style="overflow:auto;height:46vh;min-height:260px;background:#f6f9fc;-webkit-overflow-scrolling:touch">
+            <div style="position:relative;width:1100px;height:617px">
+              <img src="assets/plang.png" alt="Plang vun Al Dikkrich" style="display:block;width:1100px;height:617px">
+              <div style="position:absolute;left:53.4%;top:52.8%;width:0;height:0">
+                <span style="position:absolute;width:44px;height:44px;border-radius:50%;background:#e8452c;left:0;top:0;animation:pulse 1.6s ease-out infinite"></span>
+                <span style="position:absolute;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#e8452c;border:3px solid #fff;color:#fff;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.35)">4</span>
+              </div>
+              <div style="position:absolute;left:55.6%;top:64.8%;width:0;height:0">
+                <span style="position:absolute;width:44px;height:44px;border-radius:50%;background:#e8452c;left:0;top:0;animation:pulse 1.6s ease-out infinite .5s"></span>
+                <span style="position:absolute;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#e8452c;border:3px solid #fff;color:#fff;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.35)">5</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding:14px 16px 22px;display:flex;flex-direction:column;gap:8px">
+            <button onClick="{{ focus4 }}" style="display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid rgba(42,73,150,.2);background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;font-family:inherit;min-height:56px;color:#1b2a55">
+              <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#e8452c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center">4</span>
+              <span style="display:flex;flex-direction:column"><strong style="font-size:15px">Beim Kettchen</strong><span style="font-size:12px;color:#5a6587">Gedrénks &amp; Iessen · beim Kulturhaus</span></span>
+            </button>
+            <button onClick="{{ focus5 }}" style="display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid rgba(42,73,150,.2);background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;font-family:inherit;min-height:56px;color:#1b2a55">
+              <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#e8452c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center">5</span>
+              <span style="display:flex;flex-direction:column"><strong style="font-size:15px">Béiergaart</strong><span style="font-size:12px;color:#5a6587">Gedrénks · nieft dem Kulturhaus</span></span>
+            </button>
+            <span style="font-size:12px;color:#5a6587;text-align:center">Plang mat Fanger verschiebe fir ze gesinn</span>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasConfirm }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;z-index:30;background:rgba(20,32,70,.55);display:flex;align-items:flex-end;justify-content:center">
+        <div style="width:100%;max-width:440px;background:#fbf5df;border-radius:22px 22px 0 0;overflow:hidden;display:flex;flex-direction:column;animation:toastIn .25s ease-out">
+          <div style="background:#2a4996;padding:22px 20px 18px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#f0c42d;font-weight:700">Ageschriwwen</div>
+            <h3 style="margin:0;font-family:Merriweather,Georgia,serif;font-weight:900;font-size:26px;line-height:1.15;color:#f0c42d">Merci, {{ cf.first }}!</h3>
+            <sc-if value="{{ cf.mailSent }}" hint-placeholder-val="{{ true }}">
+              <p style="margin:0;font-size:14px;line-height:1.45;color:#dfe5f5">Mir hunn eng Bestätegung un <strong style="color:#fff">{{ cf.mail }}</strong> geschéckt.</p>
+            </sc-if>
+            <sc-if value="{{ cf.mailFailed }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;font-size:14px;line-height:1.45;color:#dfe5f5">Deng Aschreiwung ass gespäichert. D'Bestätegungsmail un <strong style="color:#fff">{{ cf.mail }}</strong> konnt leider net geschéckt ginn.</p>
+            </sc-if>
+          </div>
+          <div style="padding:16px 20px 26px;display:flex;flex-direction:column;gap:14px">
+            <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(27,42,85,.08)">
+              <div style="padding:10px 14px;border-bottom:1px solid #eef0f7;font-size:12px;color:#5a6587;display:flex;flex-direction:column;gap:2px">
+                <span><strong style="color:#1b2a55">Vun:</strong> Al Dikkrich – Schichtplang</span>
+                <span><strong style="color:#1b2a55">Sujet:</strong> Deng Schicht um {{ cf.tag }}</span>
+              </div>
+              <div style="padding:14px;font-size:14px;line-height:1.5;color:#1b2a55;display:flex;flex-direction:column;gap:10px">
+                <span>Moien {{ cf.first }},<br>du bass fir dës Schicht ageschriwwen:</span>
+                <div style="background:#f0c42d;border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px">
+                  <span style="font-family:Merriweather,Georgia,serif;font-weight:700;font-size:16px;color:#2a4996">{{ cf.stand }}</span>
+                  <span>{{ cf.when }}</span>
+                  <span style="font-size:13px">{{ cf.where }}</span>
+                </div>
+                <span style="color:#5a6587">Wann s de awer net kanns, mell dech w.e.g. rechtzäiteg of.</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button onClick="{{ undo }}" style="flex:1;background:#fff;color:#2a4996;border:1.5px solid rgba(42,73,150,.25);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;min-height:48px">Réckgängeg</button>
+              <button onClick="{{ closeConfirm }}" style="flex:1.4;background:#2a4996;color:#f0c42d;border:0;border-radius:10px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;min-height:48px" style-hover="background:#1f3877">Fäerdeg</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;left:0;right:0;bottom:20px;display:flex;justify-content:center;padding:0 16px;z-index:20;pointer-events:none">
+        <div style="width:100%;max-width:408px;padding:14px 16px;border-radius:12px;color:#fff;background:#1f3877;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;box-shadow:0 10px 30px -10px rgba(20,32,70,.6);pointer-events:auto;animation:toastIn .25s ease-out">
+          <span>{{ toastText }}</span>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+// URL der Apps-Script-Web-App (Bereitstellen -> Web-App -> URL, endet auf /exec)
+const API = 'https://script.google.com/macros/s/AKfycbwTW_5nc3xh7eThl0wJ0IhUNwZ1xfgjePFTQhqrdfXEjcnzVAEEICN9zdCk-Vw9g3GO/exec';
+
+const KEY = 'helferplan-aldikkrich-live1';
+const STAENDE = ['Beim Kettchen', 'Béiergaart'];
+const NOTES = { 'Beim Kettchen': 'Stand 4 · Gedrénks & Iessen', 'Béiergaart': 'Stand 5 · Gedrénks' };
+const TAGE = [
+  { day: 'Freideg', dow: 'Fr', num: '09', long: 'Freideg, 9. Juli' },
+  { day: 'Samschdeg', dow: 'Sa', num: '10', long: 'Samschdeg, 10. Juli' },
+  { day: 'Sonndeg', dow: 'So', num: '11', long: 'Sonndeg, 11. Juli' },
+  { day: 'Méindeg', dow: 'Mé', num: '12', long: 'Méindeg, 12. Juli' },
+  { day: 'Dënschdeg', dow: 'Dë', num: '13', long: 'Dënschdeg, 13. Juli' }
+];
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    this.state = {
+      shifts: [], loading: true, loadError: false, busy: false,
+      mine: saved?.mine || [],
+      myName: saved?.myName || '', myMail: saved?.myMail || '', mails: saved?.mails || {},
+      tag: saved?.tag || 'Freideg',
+      openId: null, draft: '', draftMail: '', error: '', toast: null, confirm: null, showMap: false
+    };
+    this.inputRef = React.createRef();
+    this.mapRef = React.createRef();
+  }
+  // merkt sich nur, was zu diesem Gerät gehört (eigene Eintragungen, Name, Mail, gewählter Tag)
+  save(patch) {
+    this.setState(patch, () => {
+      const { mine, myName, myMail, mails, tag } = this.state;
+      try { localStorage.setItem(KEY, JSON.stringify({ mine, myName, myMail, mails, tag })); } catch (e) {}
+    });
+  }
+  componentDidMount() {
+    this.load();
+    this._vis = () => { if (!document.hidden) this.load(); };
+    document.addEventListener('visibilitychange', this._vis);
+  }
+  componentWillUnmount() {
+    clearTimeout(this._t);
+    document.removeEventListener('visibilitychange', this._vis);
+  }
+  async load() {
+    try {
+      const r = await fetch(API);
+      const d = await r.json();
+      if (!d.ok) throw new Error('api');
+      this.setState({ shifts: d.shifts, loading: false, loadError: false });
+    } catch (e) {
+      this.setState({ loading: false, loadError: this.state.shifts.length === 0 });
+    }
+  }
+  // JSON als text/plain senden: Apps Script antwortet dann ohne CORS-Vorabfrage
+  async call(payload) {
+    try {
+      const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      return await r.json();
+    } catch (e) {
+      return { ok: false, msg: 'Keng Verbindung – probéier w.e.g. nach eng Kéier.' };
+    }
+  }
+  openMap(stand) {
+    this.setState({ showMap: true });
+    const n = stand === 'Béiergaart' ? 5 : 4; let tries = 0;
+    const go = () => { if (this.mapRef.current && this.mapRef.current.clientWidth) this.center(n, 'auto'); else if (tries++ < 30) setTimeout(go, 50); };
+    setTimeout(go, 30);
+  }
+  center(n, beh) {
+    const el = this.mapRef.current; if (!el) return;
+    const p = n === 5 ? [.556, .648] : [.534, .528];
+    el.scrollTo({ left: p[0] * 1100 - el.clientWidth / 2, top: p[1] * 617 - el.clientHeight / 2, behavior: beh || 'smooth' });
+  }
+  toast(text) {
+    clearTimeout(this._t);
+    this.setState({ toast: text });
+    this._t = setTimeout(() => this.setState({ toast: null }), 3000);
+  }
+  toggle(id) {
+    const sh = this.state.shifts.find(x => x.id === id);
+    if (sh && sh.namen.length >= sh.plaetze) return this.setState({ openId: null, error: '' });
+    if (this.state.openId === id) return this.setState({ openId: null, error: '' });
+    this.setState({ openId: id, draft: this.state.myName, draftMail: this.state.myMail, error: '' }, () => setTimeout(() => this.inputRef.current?.focus(), 30));
+  }
+  async submit(id) {
+    if (this.state.busy) return;
+    const name = this.state.draft.trim().replace(/\s+/g, ' ');
+    const mail = this.state.draftMail.trim().toLowerCase();
+    const s = this.state.shifts.find(x => x.id === id);
+    if (!name) return this.setState({ error: 'Gëff w.e.g. däin Numm an.' });
+    if (name.length < 2) return this.setState({ error: 'Den Numm ass e bëssen ze kuerz.' });
+    if (!mail) return this.setState({ error: 'Gëff w.e.g. deng E-Mail-Adress an – dohinner schécke mir d\'Bestätegung.' });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) return this.setState({ error: 'Dës E-Mail-Adress gesäit net richteg aus.' });
+    this.setState({ busy: true, error: '' });
+    const res = await this.call({ action: 'signup', id, name, mail });
+    if (res.shifts) this.setState({ shifts: res.shifts });
+    if (!res.ok) return this.setState({ busy: false, error: res.msg || 'Et ass e Feeler geschitt. Probéier w.e.g. nach eng Kéier.' });
+    const t = TAGE.find(x => x.day === s.tag);
+    const n = res.name || name;
+    const key = id + '|' + n;
+    this.save({
+      mine: [...this.state.mine, key],
+      myName: n, myMail: mail, mails: { ...this.state.mails, [key]: mail },
+      openId: null, draft: '', draftMail: '', error: '', busy: false,
+      confirm: { id, name: n, mail, first: n.split(' ')[0], stand: s.stand, tag: s.tag,
+        mailSent: res.mailSent !== false, mailFailed: res.mailSent === false,
+        when: t.long + ' 2027 · ' + s.start + '–' + s.ende + ' Auer', where: 'Treffpunkt: ' + NOTES[s.stand] }
+    });
+  }
+  async remove(id, name) {
+    const key = id + '|' + name;
+    const mail = this.state.mails[key];
+    if (!mail) return this.toast('Ofmellen geet nëmmen op dem Gerät, wou s de dech ageschriwwen hues.');
+    const res = await this.call({ action: 'cancel', id, name, mail });
+    if (res.shifts) this.setState({ shifts: res.shifts });
+    if (!res.ok) return this.toast(res.msg || 'Ofmellen huet net geklappt.');
+    const mails = { ...this.state.mails }; delete mails[key];
+    this.save({ mine: this.state.mine.filter(m => m !== key), mails });
+    this.toast('Du bass ofgemellt.');
+  }
+  renderVals() {
+    const { shifts, mine, tag, openId, draft, error, toast, loading, loadError, busy } = this.state;
+    const tabs = TAGE.map(t => {
+      const free = shifts.filter(s => s.tag === t.day).reduce((a, s) => a + s.plaetze - s.namen.length, 0);
+      const sub = loading || (loadError && !shifts.length) ? '…' : free ? free + ' fräi' : 'voll';
+      return { dow: t.dow, num: t.num, sub, active: t.day === tag, inactive: t.day !== tag, onClick: () => this.save({ tag: t.day, openId: null, error: '' }) };
+    });
+    const today = shifts.filter(s => s.tag === tag);
+    const sections = STAENDE.filter(st => today.some(s => s.stand === st)).map(st => ({
+      stand: st, note: NOTES[st], onMap: () => this.openMap(st),
+      shifts: today.filter(s => s.stand === st).map(s => {
+        const free = s.plaetze - s.namen.length, full = free <= 0;
+        const myHere = s.namen.filter(n => mine.includes(s.id + '|' + n));
+        const isMine = myHere.length > 0, isOpen = openId === s.id && !full;
+        return {
+          time: s.start + ' – ' + s.ende,
+          freeLabel: full ? 'all ' + s.plaetze + ' Plaze besat' : free === 1 ? 'nach 1 Plaz fräi' : 'nach ' + free + ' vu ' + s.plaetze + ' fräi',
+          dots: Array.from({ length: s.plaetze }, (_, i) => ({ filled: i < s.namen.length, empty: i >= s.namen.length })),
+          cardBg: full && !isMine ? '#f4f1e4' : '#fff',
+          peopleLabel: s.namen.length ? 'Ageschriwwen (' + s.namen.length + '/' + s.plaetze + ')' : 'Nach keen ageschriwwen',
+          freeSlots: Array.from({ length: Math.max(0, free) }, (_, i) => ({ i })),
+          showJoin: !full && !isMine && !isOpen, showClose: isOpen, isMine, isFullOther: full && !isMine,
+          people: s.namen.map(n => { const m = myHere.includes(n); return { name: n, mine: m, other: !m, onRemove: () => this.remove(s.id, n) }; }),
+          isOpen, draft: isOpen ? draft : '', draftMail: isOpen ? this.state.draftMail : '', inputRef: this.inputRef,
+          submitLabel: busy ? 'Een Moment …' : 'Verbindlech aschreiwen',
+          onToggle: () => this.toggle(s.id),
+          onInput: e => this.setState({ draft: e.target.value, error: '' }),
+          onMail: e => this.setState({ draftMail: e.target.value, error: '' }),
+          onKey: e => { if (e.key === 'Enter') this.submit(s.id); if (e.key === 'Escape') this.toggle(s.id); },
+          onSubmit: () => this.submit(s.id),
+          hasError: isOpen && !!error, error
+        };
+      })
+    }));
+    const statusText = loading ? 'Plang gëtt gelueden …'
+      : loadError ? 'De Plang konnt net gelueden ginn. Probéier w.e.g. d\'Säit nei ze lueden.'
+      : !today.length ? 'Fir dësen Dag sinn nach keng Schichte virgesinn.' : '';
+    return {
+      tabs, sections,
+      hasStatus: !!statusText, statusText,
+      showMap: this.state.showMap, mapRef: this.mapRef,
+      openMap: () => this.openMap('Beim Kettchen'), closeMap: () => this.setState({ showMap: false }),
+      focus4: () => this.center(4), focus5: () => this.center(5),
+      dayTitle: TAGE.find(t => t.day === tag)?.long,
+      hasMine: mine.length > 0,
+      mineLabel: mine.length === 1 ? '1 Schicht ageschriwwen' : mine.length + ' Schichten ageschriwwen',
+      hasToast: !!toast, toastText: toast,
+      hasConfirm: !!this.state.confirm, cf: this.state.confirm || {},
+      closeConfirm: () => this.setState({ confirm: null }),
+      undo: () => { const u = this.state.confirm; if (!u) return; this.remove(u.id, u.name); this.setState({ confirm: null }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
